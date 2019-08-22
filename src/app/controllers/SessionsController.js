@@ -7,14 +7,12 @@ import User from '../models/User';
 class SessionsController {
     async store(req, res) {
         // validar  body params
-        const schema = Yup.object({
-            email: Yup.string().required(),
-            password: Yup.string().required().min(6)
+        const schema = Yup.object().shape({
+            email: Yup.string().required("email is required"),
+            password: Yup.string().required("password is required").min(6, "Password field must contain at least 6 characters")
         })
 
-        if (!(await schema.isValid(req.body))) {
-            return res.status(401).json({ error: 'Fields invalid'});
-        }
+        schema.validate(req.body).catch(err => res.status(400).json({ error: err.errors }))
 
         // check user
         const { email, password } = req.body;

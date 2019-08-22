@@ -5,15 +5,13 @@ import User from '../models/User';
 class UserController {
     async store(req, res) {
         // validar body params
-        const schema = Yup.object({
-            name: Yup.string().required(),
-            email: Yup.string().email().required(),
-            password: Yup.string().required().min(6),
+        const schema = Yup.object().shape({
+            name: Yup.string().required('name is required'),
+            email: Yup.string().email("email is not valid").required('email is required'),
+            password: Yup.string().required("password is required").min(6, "Password field must contain at least 6 characters"),
         });
 
-        if (!(await schema.isValid(req.body))) {
-            return res.status(401).json({ error: 'Fields invalids' });
-        }
+        schema.validate(req.body).catch(err => res.status(400).json({ error: err.errors }))
 
         // validar se usuário existe
         const userExists = await User.findOne({where: { email: req.body.email} });
@@ -35,21 +33,19 @@ class UserController {
 
     async update(req, res) {
         // validar body params
-        const schema = Yup.object({
+        const schema = Yup.object().shape({
             name: Yup.string(),
             email: Yup.string().email(),
             oldPassword: Yup.string().min(6),
             password: Yup.string().min(6).when('oldPassword', (oldPassword, field) =>
-                oldPassword ? field.required() : field
+                oldPassword ? field.required("password is required") : field
             ),
             passwordConfirmation: Yup.string().min(6).when('password', (password, field) =>
-                password ? field.required().oneOf([password]) : field
+                password ? field.required("password confirmation is required").oneOf([password], "Password confirmation does not match") : field
             )
         });
 
-        if (!(await schema.isValid(req.body))) {
-            return res.status(401).json({ error: 'Fields invalids' });
-        }
+        schema.validate(req.body).catch(err => res.status(400).json({ error: err.errors }))
 
         // recebendo id do middleware
         const user = await User.findByPk(req.userId);
