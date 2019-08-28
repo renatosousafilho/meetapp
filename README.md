@@ -1,6 +1,7 @@
 ToDo List
 
-* Cadastrar Avatar para usuário
+* Upload de Avatar (x)
+* Associar usuário com avatar
 * Cadastro de meetups
     - Atributos
         - descrição (*)

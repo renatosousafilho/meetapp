@@ -1,6 +1,7 @@
 import * as Yup from 'yup';
 
 import User from '../models/User';
+import Avatar from '../models/Avatar';
 
 class UserController {
     async store(req, res) {
@@ -9,6 +10,7 @@ class UserController {
             name: Yup.string().required('name is required'),
             email: Yup.string().email("email is not valid").required('email is required'),
             password: Yup.string().required("password is required").min(6, "Password field must contain at least 6 characters"),
+            avatar_id: Yup.number("Deve ser um número"),
         });
 
         schema.validate(req.body).catch(err => res.status(400).json({ error: err.errors }))
@@ -17,17 +19,25 @@ class UserController {
         const userExists = await User.findOne({where: { email: req.body.email} });
 
         if (userExists) {
-            res.status(401).json({ error: 'User already exists'});
+            return res.status(401).json({ error: 'User already exists'});
+        }
+
+        // validar se existe o avatar
+        const avatarExists = await Avatar.findByPk(req.body.avatar_id);
+
+        if (!avatarExists) {
+            return res.status(401).json({ error: 'Avatar does not exists'});
         }
 
         // criar usuário
-        const { id , name, email } = await User.create(req.body);
+        const { id , name, email, avatar_id } = await User.create(req.body);
 
         // retornar daddos do usuário
         return res.json({
             id,
             name,
-            email
+            email,
+            avatar_id
         })
     }
 
