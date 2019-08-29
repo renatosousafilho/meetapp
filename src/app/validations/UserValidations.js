@@ -17,10 +17,25 @@ class UserValidations extends Validations {
     await this.isValid(schema, req.body);
   }
 
+  async validateUpdate(req, res) {
+    const schema = Yup.object().shape({
+      name: Yup.string(),
+      email: Yup.string().email(),
+      oldPassword: Yup.string().min(6),
+      password: Yup.string().min(6).when('oldPassword', (oldPassword, field) =>
+          oldPassword ? field.required("password is required") : field
+      ),
+      passwordConfirmation: Yup.string().min(6).when('password', (password, field) =>
+          password ? field.required("password confirmation is required").oneOf([password], "Password confirmation does not match") : field
+      ),
+      avatar_id: Yup.number("Deve ser um número"),
+    });
+
+    await this.isValid(schema, req.body);
+  }
+
 
   async checkUserExists(email) {
-    this.setError(null);
-  
     const userExists = await User.findOne({where: { email } });
 
     if (userExists) {
@@ -29,12 +44,22 @@ class UserValidations extends Validations {
   }
 
   async checkAvatarExists(avatar_id) {
-    this.setError(null);
-
     const avatarExists = await Avatar.findByPk(avatar_id);
     
     if (!avatarExists) {
       this.setError({errors: 'Avatar does not exists'})
+    }
+  }
+
+  async checkOldPassword(oldPassword, user) {
+    if (oldPassword && !(await user.checkPassword(oldPassword))) {
+      this.setError({errors: 'Password does not match'})
+    }
+  }
+
+  checkNewPassword(oldPassword, password) {
+    if (oldPassword == password) {
+      this.setError({errors: 'New password cannot be equals old password'})
     }
   }
 }
