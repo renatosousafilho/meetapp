@@ -3,35 +3,31 @@ import * as Yup from 'yup';
 import User from '../models/User';
 import Avatar from '../models/Avatar';
 
+import UserValidations from '../validations/UserValidations';
+
 class UserController {
     async store(req, res) {
         // validar body params
-        const schema = Yup.object().shape({
-            name: Yup.string().required('name is required'),
-            email: Yup.string().email("email is not valid").required('email is required'),
-            password: Yup.string().required("password is required").min(6, "Password field must contain at least 6 characters"),
-            avatar_id: Yup.number("Deve ser um número"),
-        });
+        await UserValidations.validateStore(req, res);
 
-        schema.validate(req.body).catch(err => res.status(400).json({ error: err.errors }))
-
-        // validar se usuário existe
-        const userExists = await User.findOne({where: { email: req.body.email} });
-
-        if (userExists) {
-            return res.status(401).json({ error: 'User already exists'});
+        if (UserValidations.getError()) {
+            return UserValidations.sendError(res);
         }
 
-        // validar se existe o avatar
-        const avatarExists = await Avatar.findByPk(req.body.avatar_id);
+        await UserValidations.checkUserExists(req.body.email);
 
-        if (!avatarExists) {
-            return res.status(401).json({ error: 'Avatar does not exists'});
+        if (UserValidations.getError()) {
+            return UserValidations.sendError(res);
         }
 
-        // criar usuário
+        await UserValidations.checkAvatarExists(req.body.avatar_id);
+
+        if (UserValidations.getError()) {
+            return UserValidations.sendError(res);
+        }
+
         const { id , name, email, avatar_id } = await User.create(req.body);
-
+        
         // retornar daddos do usuário
         return res.json({
             id,
