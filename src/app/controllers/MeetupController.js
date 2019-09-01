@@ -3,6 +3,19 @@ import Meetup from '../models/Meetup'
 import { parseISO } from 'date-fns';
 
 class MeetupController {
+  async index(req, res) {
+    const { page } = req.query;
+    
+    const meetups = await Meetup.findAll({ 
+      where: {user_id: req.userId},
+      order: ['start_at'],
+      attributes: ['id', 'location', 'start_at', 'banner_url'],
+      limit: 20,
+      offset: (page-1)*20
+    })
+    res.json(meetups)
+  }
+
   async store(req, res) {
     MeetupValidations.setError(null)
 

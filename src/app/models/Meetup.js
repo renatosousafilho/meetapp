@@ -8,6 +8,12 @@ class Meetup extends Model {
                 start_at: Sequelize.DATE,
                 banner_name: Sequelize.STRING,
                 banner_path: Sequelize.STRING,
+                banner_url: {
+                    type: Sequelize.VIRTUAL(Sequelize.STRING, 'banner_path'),
+                    get() {
+                        return `http://localhost:4000/files/${this.banner_path}`;
+                    }
+                }
             },{
                 sequelize
             }            

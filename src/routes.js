@@ -20,6 +20,7 @@ routes.put('/users', UserController.update);
 
 routes.post('/files', upload.single('file'), FileController.store)
 
+routes.get('/meetups', MeetupController.index);
 routes.post('/meetups', upload.single('banner'), MeetupController.store);
 routes.put('/meetups/:id', upload.single('banner'), MeetupController.update);
 
