@@ -1,7 +1,7 @@
 ToDo List
 
-* Upload de Avatar (x)
-* Associar usuário com avatar
+* Upload de Avatar √
+* Associar usuário com avatar √
 * Cadastro de meetups
     - Atributos
         - descrição (*)
@@ -9,8 +9,8 @@ ToDo List
         - data e hora (*)
         - imagem (*)
         - user (*)
-    - Não pode cadastrar para datas passadas
-    - Pode editar dados do meetup que ainda não aconteceram e que é organizador
+    - Não pode cadastrar para datas passadas √
+    - Pode editar dados do meetup que ainda não aconteceram e que é organizador √
     - Listar meetups organizados por usuário logado
     - Cancelar meetups
         - Precisa ser organizador
