@@ -4,6 +4,8 @@ class Subscription extends Model {
     static init(sequelize) {
         super.init(
             {
+                created_at: Sequelize.DATE,
+                updated_at: Sequelize.DATE,
             },{
                 sequelize
             }            

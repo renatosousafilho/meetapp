@@ -20,7 +20,7 @@ ToDo List
     - Usuário não pode se inscrever em um meetup que já aconteceu √
     - O mesmo usuário não pode se inscrever duas vezes no mesmo meetup √
     - O usuário não pode se inscrever em dois meetups no mesmo horário √
-    - Enviar e-mail para o organizador do meetup
+    - Enviar e-mail para o organizador do meetup √
 * Listagem de meetups
     - Filtro por data com paginação e dados do organizador
     - Detalhar meetup listando todos os usários inscritos

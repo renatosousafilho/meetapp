@@ -25,20 +25,25 @@ class MeetupValidations extends Validations {
       this.setError({errors: "You cannot subscribe a meetup that you created!"});
     }
 
-    const subscription = await Subscription.findOne({
-      where: {
-        user_id: req.userId,
-        meetup_id: meetup.id
-      }
-    });
-
+    
+    
     if (meetup && isPast(meetup.start_at)) {
       this.setError({errors: 'This meetup already happened!'});  
     }
 
-    if (subscription) {
-      this.setError({errors: "You already subscribed in this meeetup"}); 
-    }
+    
+    if (meetup) {
+      const subscription = await Subscription.findOne({
+        where: {
+          user_id: req.userId,
+          meetup_id: meetup.id
+        }
+      });
+  
+      if (subscription) {
+        this.setError({errors: "You already subscribed in this meeetup"}); 
+      }
+    } 
   }
 
   async validateUpdate(req, res) {

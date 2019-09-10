@@ -1,3 +1,6 @@
+import { format } from 'date-fns';
+import pt from 'date-fns/locale/pt';
+
 import SubscriptionValidations from '../validations/SubscriptionValidations';
 import Meetup from '../models/Meetup';
 import User from '../models/User';
@@ -37,12 +40,26 @@ class SubscriptionController {
       meetup_id      
     });
 
-    console.log(meetup.user);
+    const user = await User.findByPk(req.userId);
+
+    const formattedSubscriptionDate = format(subscription.created_at, "'dia' dd 'de' MMMM', às' H:mm'h'", {
+      locale: pt
+    });
     
+    const formattedMeetupDate = format(meetup.start_at, "'dia' dd 'de' MMMM', às' H:mm'h'", {
+      locale: pt
+    });
+
     await Mail.sendMail({
       to: `${meetup.user.name} <${meetup.user.email}>`,
       subject: 'Inscrição realizada',
-      text: `Nova inscrição no meetup do dia ${meetup.start_at}`
+      template: 'subscription',
+      context: {
+        owner: meetup.user.name,
+        user: user.name,
+        meetup: `${formattedMeetupDate} - ${meetup.location}`,
+        date: formattedSubscriptionDate,
+      }
     })
 
     res.json(subscription)
