@@ -23,7 +23,7 @@ class SubscriptionController {
             as: 'user',
             attributes: ['name', 'email'],
         }                
-    ]
+      ]
     });
     
     await SubscriptionValidations.checkCanSubscribe(req, meetup);
