@@ -4,7 +4,7 @@ import { parseISO } from 'date-fns';
 
 class MeetupController {
   async index(req, res) {
-    const { page } = req.query;
+    const { page = 1 } = req.query;
     
     const meetups = await Meetup.findAll({ 
       where: {user_id: req.userId},
@@ -12,7 +12,8 @@ class MeetupController {
       attributes: ['id', 'location', 'start_at', 'banner_url'],
       limit: 20,
       offset: (page-1)*20
-    })
+    });
+    
     res.json(meetups)
   }
 
