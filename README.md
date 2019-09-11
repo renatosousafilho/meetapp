@@ -22,7 +22,7 @@ ToDo List
     - O usuário não pode se inscrever em dois meetups no mesmo horário √
     - Enviar e-mail para o organizador do meetup √
 * Listagem de meetups
-    - Filtro por data com paginação e dados do organizador
+    - Filtro por data com paginação e dados do organizador √
     - Detalhar meetup listando todos os usários inscritos
 * Listagem de inscrições
     - Listar de acordo com o usuário logado ordenados pelos mais próximos
