@@ -1,15 +1,16 @@
 import MeetupValidations from '../../validations/MeetupValidations';
-import Meetup from '../../models/Meetup'
-import { parseISO } from 'date-fns';
+import Meetup from '../../models/Meetup';
+import User from '../../models/User';
+import { parseISO, isBefore } from 'date-fns';
 
 class MeetupController {
   async index(req, res) {
     const { page = 1 } = req.query;
     
     const meetups = await Meetup.findAll({ 
-      where: {user_id: req.userId},
+      where: { user_id: req.userId, canceled_at: null },
       order: ['start_at'],
-      attributes: ['id', 'location', 'start_at', 'banner_url'],
+      attributes: ['id', 'name', 'location', 'start_at', 'banner_url'],
       limit: 20,
       offset: (page-1)*20
     });
@@ -32,10 +33,11 @@ class MeetupController {
       return MeetupValidations.sendError(res);
     }
 
-    const { location, start_at } = req.body;
+    const { name, location, start_at } = req.body;
     const { originalname: banner_name, filename: banner_path } = req.file;
 
     const meetup = await Meetup.create({
+      name,
       location,
       start_at,
       banner_name,
@@ -71,12 +73,13 @@ class MeetupController {
       }
     }
      
-    const { location, start_at: start_at_string } = req.body;
+    const { name, location, start_at: start_at_string } = req.body;
     const { originalname: banner_name, filename: banner_path } = req.file;
 
     const start_at = start_at_string ? parseISO(start_at_string) : meetup.start_at;
 
     const meetupUpdated = await meetup.update({
+      name,
       location,
       start_at,
       banner_name,
@@ -84,6 +87,36 @@ class MeetupController {
     })
 
     res.json(meetupUpdated);
+  }
+
+  async delete(req, res) {
+    const meetup = await Meetup.findByPk(req.params.id, {
+      include: [
+        {
+          model: User,
+          as: 'user',
+          attributes: ['name', 'email']
+        }
+      ]
+    });
+
+    if (meetup && meetup.user_id !== req.userId) {
+      return res.status(401).json({errors: 'You have no permission to cancel this meetup'});
+    }
+
+    if (meetup && isBefore(meetup.start_at, new Date())) {
+      return res.status(401).json({error: 'You can only cancel meetups before start date.'});
+    }
+
+    meetup.canceled_at = new Date();
+
+    console.log(meetup.canceled_at)
+
+    await meetup.save();
+
+    // Enviar e-mails para usuários inscritos
+
+    return res.json(meetup)
   }
 }
 

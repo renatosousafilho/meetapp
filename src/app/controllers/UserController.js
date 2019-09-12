@@ -20,11 +20,14 @@ class UserController {
             return UserValidations.sendError(res);
         }
 
-        await UserValidations.checkAvatarExists(req.body.avatar_id);
+        if (req.body.avatar_id) {
+            await UserValidations.checkAvatarExists(req.body.avatar_id);
 
-        if (UserValidations.getError()) {
-            return UserValidations.sendError(res);
+            if (UserValidations.getError()) {
+                return UserValidations.sendError(res);
+            }
         }
+        
 
         const { id , name, email, avatar_id } = await User.create(req.body);
         

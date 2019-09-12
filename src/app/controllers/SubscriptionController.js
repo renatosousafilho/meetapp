@@ -16,7 +16,7 @@ class SubscriptionController {
       
       attributes: ['id', 'created_at'],
       include: [
-        { model: Meetup, as: 'meetup', attributes: ['location', 'start_at'] }
+        { model: Meetup, as: 'meetup', attributes: ['name', 'location', 'start_at'] }
       ],
       order: [ 
         [ { model: Meetup, as: 'meetup' }, 'start_at' ]

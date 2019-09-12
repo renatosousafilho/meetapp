@@ -9,6 +9,7 @@ class MeetupValidations extends Validations {
     this.setError(null);
   
     const schema = Yup.object().shape({
+      name: Yup.string().required('name is required'),
       location: Yup.string().required('location is required'),
       start_at: Yup.date().required('start_at is required')
     });
@@ -40,6 +41,7 @@ class MeetupValidations extends Validations {
     this.setError(null);
   
     const schema = Yup.object().shape({
+      name: Yup.string(),
       location: Yup.string(),
       start_at: Yup.date()
     }); 

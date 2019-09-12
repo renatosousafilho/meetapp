@@ -23,7 +23,7 @@ class MeetupController {
         }
       },
       order: ['start_at'],
-      attributes: ['id', 'location', 'start_at', 'banner_url'],
+      attributes: ['id', 'name', 'location', 'start_at', 'banner_url'],
       include: [
         {
             model: User,

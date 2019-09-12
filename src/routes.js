@@ -27,6 +27,7 @@ routes.post('/files', upload.single('file'), FileController.store)
 routes.get('/admin/meetups', AdminMeetupController.index);
 routes.post('/admin/meetups', upload.single('banner'), AdminMeetupController.store);
 routes.put('/admin/meetups/:id', upload.single('banner'), AdminMeetupController.update);
+routes.delete('/admin/meetups/:id', AdminMeetupController.delete);
 
 routes.get('/subscriptions', SubscriptionController.index);
 routes.post('/subscriptions', SubscriptionController.store);

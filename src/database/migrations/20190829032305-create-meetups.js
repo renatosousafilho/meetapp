@@ -9,6 +9,10 @@ module.exports = {
         autoIncrement: true,
         primaryKey: true,
       },
+      name: {
+        type: Sequelize.STRING,
+        allowNull: false,  
+      },
       location: {
         type: Sequelize.STRING,
         allowNull: false, 
@@ -29,6 +33,9 @@ module.exports = {
         type: Sequelize.INTEGER,
         references: { model: 'users', key: 'id' },
         onUpdate: 'CASCADE',
+      },
+      canceled_at: {
+        type: Sequelize.DATE
       },
       created_at: {
         type: Sequelize.DATE,
