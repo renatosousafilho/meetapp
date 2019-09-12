@@ -8,6 +8,24 @@ import Subscription from '../models/Subscription';
 import Mail from '../../lib/Mail';
 
 class SubscriptionController {
+  async index(req, res) {
+    const subscriptions = await Subscription.findAll({
+      where: {
+        user_id: req.userId
+      },
+      
+      attributes: ['id', 'created_at'],
+      include: [
+        { model: Meetup, as: 'meetup', attributes: ['location', 'start_at'] }
+      ],
+      order: [ 
+        [ { model: Meetup, as: 'meetup' }, 'start_at' ]
+      ],
+    })
+
+    res.json(subscriptions);
+  }
+
   async store(req, res) {
     SubscriptionValidations.setError(null);
     await SubscriptionValidations.validateStore(req, res);

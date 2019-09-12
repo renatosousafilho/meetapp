@@ -28,6 +28,7 @@ routes.get('/admin/meetups', AdminMeetupController.index);
 routes.post('/admin/meetups', upload.single('banner'), AdminMeetupController.store);
 routes.put('/admin/meetups/:id', upload.single('banner'), AdminMeetupController.update);
 
+routes.get('/subscriptions', SubscriptionController.index);
 routes.post('/subscriptions', SubscriptionController.store);
 
 export default routes;

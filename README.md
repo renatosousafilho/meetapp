@@ -25,7 +25,11 @@ ToDo List
     - Filtro por data com paginação e dados do organizador √
     - Detalhar meetup listando todos os usários inscritos
 * Listagem de inscrições
-    - Listar de acordo com o usuário logado ordenados pelos mais próximos
+    - Listar de acordo com o usuário logado ordenados pelos mais próximos √
+* Setup
+    - Redis
+    - Sentry
+    - Env Vars
 
 
 
