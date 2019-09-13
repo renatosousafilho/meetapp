@@ -25,10 +25,12 @@ class MeetupValidations extends Validations {
       this.setError({errors: "You cannot subscribe a meetup that you created!"});
     }
 
-    
-    
     if (meetup && isPast(meetup.start_at)) {
       this.setError({errors: 'This meetup already happened!'});  
+    }
+
+    if (meetup && meetup.canceled_at != null) {
+      this.setError({errors: 'This meetup was canceled!'});  
     }
 
     

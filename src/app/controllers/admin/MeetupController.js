@@ -8,9 +8,9 @@ class MeetupController {
     const { page = 1 } = req.query;
     
     const meetups = await Meetup.findAll({ 
-      where: { user_id: req.userId, canceled_at: null },
+      where: { user_id: req.userId },
       order: ['start_at'],
-      attributes: ['id', 'name', 'location', 'start_at', 'banner_url'],
+      attributes: ['id', 'name', 'location', 'start_at', 'canceled_at', 'banner_url'],
       limit: 20,
       offset: (page-1)*20
     });

@@ -13,11 +13,11 @@ class MeetupController {
       return res.status(401).json({error: 'Invalid date'});
     }
 
-    const searchDate = Number(date);
     const parseDate = parseISO(date);
 
     const meetups = await Meetup.findAll({ 
       where: {
+        canceled_at: null,
         start_at: {
           [Op.between]: [startOfDay(parseDate), endOfDay(parseDate)]
         }
