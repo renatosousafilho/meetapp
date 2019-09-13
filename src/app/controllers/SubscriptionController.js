@@ -1,11 +1,10 @@
-import { format } from 'date-fns';
-import pt from 'date-fns/locale/pt';
-
 import SubscriptionValidations from '../validations/SubscriptionValidations';
 import Meetup from '../models/Meetup';
 import User from '../models/User';
 import Subscription from '../models/Subscription';
-import Mail from '../../lib/Mail';
+
+import Queue from '../../lib/Queue';
+import SubscriptionMail from '../jobs/SubscriptionMail';
 
 class SubscriptionController {
   async index(req, res) {
@@ -60,24 +59,10 @@ class SubscriptionController {
 
     const user = await User.findByPk(req.userId);
 
-    const formattedSubscriptionDate = format(subscription.created_at, "'dia' dd 'de' MMMM', às' H:mm'h'", {
-      locale: pt
-    });
-    
-    const formattedMeetupDate = format(meetup.start_at, "'dia' dd 'de' MMMM', às' H:mm'h'", {
-      locale: pt
-    });
-
-    await Mail.sendMail({
-      to: `${meetup.user.name} <${meetup.user.email}>`,
-      subject: 'Inscrição realizada',
-      template: 'subscription',
-      context: {
-        owner: meetup.user.name,
-        user: user.name,
-        meetup: `${formattedMeetupDate} - ${meetup.location}`,
-        date: formattedSubscriptionDate,
-      }
+    await Queue.add(SubscriptionMail.key, {
+      subscription,
+      meetup,
+      user
     })
 
     res.json(subscription)

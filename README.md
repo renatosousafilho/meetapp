@@ -28,7 +28,7 @@ ToDo List
 * Listagem de inscrições
     - Listar de acordo com o usuário logado ordenados pelos mais próximos √
 * Setup
-    - Redis
+    - Redis √
     - Sentry
     - Env Vars
 
