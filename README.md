@@ -1,20 +1,36 @@
-# 🗓MeetApp
+# 🗓 MeetApp
 
-Plataforma para meetups. Os usuários podem criar ou se inscrever em meetups criados por uma comunidade de usuários.
+Plataforma para meetups. Os usuários podem: 
 
-### Como executar
+- cadastro
+- login
+- criar meetups
+- fazer inscrição em meetups
 
-```
-git clone https://github.com/renatosousafilho/meetapp
-yarn
-yarn dev
-```
 
-### Contato
+## 🛠 Tecnologias
 
-* Email: renatosousafilho@gmail.com
-* GitHub: renatosousafilho
-* LinkedIn: renatsousafilho
+- Node.js
+- Express
+- Sequelize
+- Yup
+- JsonWebToken
+- Bee-Queue
+- Nodemailer
+
+## 🚀 Instalação e execução
+
+1. Faça um clone desse repositório;
+2. Entre na pasta rodando `cd meetapp`;
+3. Rode `yarn` para instalar as dependências;
+4. Rode `yarn dev` para iniciar a aplicação.
+
+
+## 📪 Contato
+
+- Email: [renatosousafilho@gmail.com](renatosousafilho@gmail.com)
+- GitHub: [renatosousafilho](https://github.com/renatosousafilho)
+- LinkedIn: [renatosousafilho](https://www.linkedin.com/in/renatosousafilho/)
 
 
 
