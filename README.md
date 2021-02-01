@@ -14,6 +14,7 @@ Plataforma para meetups. Os usuários podem:
 - [Express](https://www.npmjs.com/package/express)
 - [Sequelize](https://www.npmjs.com/package/sequelize)
 - [JsonWebToken](https://www.npmjs.com/package/jsonwebtoken) 
+- [Multer](https://www.npmjs.com/package/multer)
 - [Yup](https://www.npmjs.com/package/yup)
 - [Bee-Queue](https://github.com/bee-queue/bee-queue)
 - [Nodemailer](https://nodemailer.com/about/)
