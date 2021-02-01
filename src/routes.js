@@ -22,7 +22,7 @@ routes.get('/meetups', MeetupController.index);
 routes.use(authMiddleware);
 routes.put('/users', UserController.update);
 
-routes.post('/files', upload.single('file'), FileController.store)
+routes.post('/files', upload.single('file'), FileController.store);
 
 routes.get('/admin/meetups', AdminMeetupController.index);
 routes.post('/admin/meetups', upload.single('banner'), AdminMeetupController.store);

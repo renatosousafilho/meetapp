@@ -1,25 +1,25 @@
+import { parseISO, isBefore } from 'date-fns';
 import MeetupValidations from '../../validations/MeetupValidations';
 import Meetup from '../../models/Meetup';
 import User from '../../models/User';
-import { parseISO, isBefore } from 'date-fns';
 
 class MeetupController {
   async index(req, res) {
     const { page = 1 } = req.query;
-    
-    const meetups = await Meetup.findAll({ 
+
+    const meetups = await Meetup.findAll({
       where: { user_id: req.userId },
       order: ['start_at'],
       attributes: ['id', 'name', 'location', 'start_at', 'canceled_at', 'banner_url'],
       limit: 20,
-      offset: (page-1)*20
+      offset: (page - 1) * 20,
     });
-    
-    res.json(meetups)
+
+    res.json(meetups);
   }
 
   async store(req, res) {
-    MeetupValidations.setError(null)
+    MeetupValidations.setError(null);
 
     await MeetupValidations.validateStore(req, res);
 
@@ -28,7 +28,7 @@ class MeetupController {
     }
 
     await MeetupValidations.checkStartAt(req.body.start_at);
-    
+
     if (MeetupValidations.getError()) {
       return MeetupValidations.sendError(res);
     }
@@ -42,10 +42,10 @@ class MeetupController {
       start_at,
       banner_name,
       banner_path,
-      user_id: req.userId
-    })
+      user_id: req.userId,
+    });
 
-    res.json(meetup) 
+    res.json(meetup);
   }
 
   async update(req, res) {
@@ -67,12 +67,12 @@ class MeetupController {
 
     if (req.body.start_at) {
       await MeetupValidations.checkStartAt(req.body.start_at);
-      
+
       if (MeetupValidations.getError()) {
         return MeetupValidations.sendError(res);
       }
     }
-     
+
     const { name, location, start_at: start_at_string } = req.body;
     const { originalname: banner_name, filename: banner_path } = req.file;
 
@@ -83,8 +83,8 @@ class MeetupController {
       location,
       start_at,
       banner_name,
-      banner_path
-    })
+      banner_path,
+    });
 
     res.json(meetupUpdated);
   }
@@ -95,28 +95,28 @@ class MeetupController {
         {
           model: User,
           as: 'user',
-          attributes: ['name', 'email']
-        }
-      ]
+          attributes: ['name', 'email'],
+        },
+      ],
     });
 
     if (meetup && meetup.user_id !== req.userId) {
-      return res.status(401).json({errors: 'You have no permission to cancel this meetup'});
+      return res.status(401).json({ errors: 'You have no permission to cancel this meetup' });
     }
 
     if (meetup && isBefore(meetup.start_at, new Date())) {
-      return res.status(401).json({error: 'You can only cancel meetups before start date.'});
+      return res.status(401).json({ error: 'You can only cancel meetups before start date.' });
     }
 
     meetup.canceled_at = new Date();
 
-    console.log(meetup.canceled_at)
+    console.log(meetup.canceled_at);
 
     await meetup.save();
 
     // Enviar e-mails para usuários inscritos
 
-    return res.json(meetup)
+    return res.json(meetup);
   }
 }
 

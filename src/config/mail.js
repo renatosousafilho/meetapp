@@ -4,9 +4,9 @@ export default {
   secure: false,
   auth: {
     user: '249349ea00685a',
-    pass: '144e3dd301e35d'
+    pass: '144e3dd301e35d',
   },
   default: {
-    from: 'Equipe Meetapp <noreply@meetap.com>'
-  }
-}
+    from: 'Equipe Meetapp <noreply@meetap.com>',
+  },
+};

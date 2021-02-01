@@ -2,7 +2,7 @@ import Bee from 'bee-queue';
 import redisConfig from '../config/redis';
 import SubscriptionMail from '../app/jobs/SubscriptionMail';
 
-const jobs = [SubscriptionMail]
+const jobs = [SubscriptionMail];
 
 class Queue {
   constructor() {
@@ -12,14 +12,14 @@ class Queue {
   }
 
   init() {
-    jobs.forEach(({key, handle}) => {
+    jobs.forEach(({ key, handle }) => {
       this.queues[key] = {
         bee: new Bee(key, {
-          redis: redisConfig
+          redis: redisConfig,
         }),
-        handle
-      }
-    })
+        handle,
+      };
+    });
   }
 
   add(queue, job) {
@@ -27,11 +27,11 @@ class Queue {
   }
 
   processQueue() {
-    jobs.forEach(job => {
-      const { bee, handle } = this.queues[job.key]
+    jobs.forEach((job) => {
+      const { bee, handle } = this.queues[job.key];
 
       bee.on('failed', this.handleFailure).process(handle);
-    })
+    });
   }
 
   handleFailure(job, err) {

@@ -4,18 +4,18 @@ import Mail from '../../lib/Mail';
 
 class SubscriptionMail {
   get key() {
-    return 'SubscriptionMail'
+    return 'SubscriptionMail';
   }
 
   async handle({ data }) {
     const { subscription, meetup, user } = data;
 
-    const formattedSubscriptionDate = format(parseISO(subscription.created_at), "'dia' dd 'de' MMMM', às' H:mm'h'", {
-      locale: pt
+    const formattedSubscriptionDate = format(parseISO(subscription.created_at), '\'dia\' dd \'de\' MMMM\', às\' H:mm\'h\'', {
+      locale: pt,
     });
 
-    const formattedMeetupDate = format(parseISO(meetup.start_at), "'dia' dd 'de' MMMM', às' H:mm'h'", {
-      locale: pt
+    const formattedMeetupDate = format(parseISO(meetup.start_at), '\'dia\' dd \'de\' MMMM\', às\' H:mm\'h\'', {
+      locale: pt,
     });
 
     await Mail.sendMail({
@@ -27,8 +27,8 @@ class SubscriptionMail {
         user: user.name,
         meetup: `${formattedMeetupDate} - ${meetup.location}`,
         date: formattedSubscriptionDate,
-      }
-    })
+      },
+    });
   }
 }
 

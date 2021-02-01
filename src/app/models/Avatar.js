@@ -1,4 +1,4 @@
-import Sequelize, { Model } from "sequelize";
+import Sequelize, { Model } from 'sequelize';
 
 class Avatar extends Model {
   static init(sequelize) {
@@ -8,8 +8,8 @@ class Avatar extends Model {
         path: Sequelize.STRING,
       },
       {
-        sequelize
-      }
+        sequelize,
+      },
     );
 
     return this;

@@ -1,4 +1,4 @@
-import Avatar from "../models/Avatar";
+import Avatar from '../models/Avatar';
 
 class FileController {
   async store(req, res) {
@@ -6,10 +6,10 @@ class FileController {
 
     const avatar = await Avatar.create({
       name,
-      path
+      path,
     });
 
-    res.json(avatar)
+    res.json(avatar);
   }
 }
 
