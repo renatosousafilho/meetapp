@@ -18,12 +18,33 @@ Plataforma para meetups. Os usuários podem:
 - Bee-Queue
 - Nodemailer
 
-## 🚀 Instalação e execução
+## 🚀 Instalação
 
 1. Faça um clone desse repositório;
 2. Entre na pasta rodando `cd meetapp`;
 3. Rode `yarn` para instalar as dependências;
 4. Rode `yarn dev` para iniciar a aplicação.
+
+## Setup 
+
+* Executar as migrations
+
+```bash
+npx sequelize db:create
+npx sequelize db:migrate
+```
+
+* Iniciar a aplicação
+
+```
+npm run dev
+```
+
+* Executar o bee-queue
+
+```
+npm run queue
+```
 
 
 ## 📪 Contato

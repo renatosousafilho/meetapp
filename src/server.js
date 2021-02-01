@@ -1,3 +1,3 @@
 import app from './app';
 
-app.listen(4000);
+app.listen(3000);

@@ -5,9 +5,9 @@ import authConfig from '../../config/auth';
 
 export default async (req, res, next) => {
   // read token
-  const authHeader = req.headers.authorization;
+  const token = req.headers.authorization;
 
-  const [, token] = authHeader.split(' ');
+  // const [_, token] = authHeader.split(' ');
 
   if (!token) {
     res.status(401).json({ error: 'Token not provided' });
