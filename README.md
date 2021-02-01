@@ -11,12 +11,13 @@ Plataforma para meetups. Os usuários podem:
 ## 🛠 Tecnologias
 
 - Node.js
-- Express
-- Sequelize
-- Yup
-- JsonWebToken
-- Bee-Queue
-- Nodemailer
+- [Express](https://www.npmjs.com/package/express)
+- [Sequelize](https://www.npmjs.com/package/sequelize)
+- [JsonWebToken](https://www.npmjs.com/package/jsonwebtoken) 
+- [Yup](https://www.npmjs.com/package/yup)
+- [Bee-Queue](https://github.com/bee-queue/bee-queue)
+- [Nodemailer](https://nodemailer.com/about/)
+- [Mailtrap](https://mailtrap.io/) 
 
 ## 🚀 Instalação
 
